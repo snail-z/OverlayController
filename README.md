@@ -10,7 +10,7 @@ Available in [CocoaPods](https://cocoapods.org "CocoaPods" )
         pod 'OverlayController', '~> 0.0.1'
     
 ## Usage scenario 
-![image](OverlayController-Swift/Sample/alert style.gif)
+![image](https://github.com/snail-z/OverlayController-Swift/Sample/alert style.gif)
 
  
 ## Example
