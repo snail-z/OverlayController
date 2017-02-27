@@ -5,11 +5,6 @@
  
  Objective-C  version : [SnailQuickMaskPopups](https://github.com/snail-z/SnailQuickMaskPopups.git)
 
-## Requirements
-
-*  Swift 3.0
-*  iOS 8 or higher
-
 ## Installation
 To install OverlayController using [CocoaPods](https://cocoapods.org "CocoaPods" ), please integrate it in your existing Podfile, or create a new Podfile:
 
@@ -23,7 +18,12 @@ To install OverlayController using [CocoaPods](https://cocoapods.org "CocoaPods"
 ```
 Then run pod install.
 
-## Usage scenario 
+## Requirements
+
+*  Swift 3.0
+*  iOS 8 or higher
+
+## Scenarios
 ![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/alert%20style.gif)
 ![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/shared%20style.gif)
 ![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/qzone%20style.gif)
@@ -31,7 +31,8 @@ Then run pod install.
 ![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/sidebar%20style.gif)
 ![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/sina%20style.gif)
  
-## Example
+## Usage
+
 ``` swift
 
     var overlayController : OverlayController!
