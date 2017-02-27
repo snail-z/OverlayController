@@ -87,7 +87,7 @@ Then run pod install.
     
  ```
  
-If you need use the objc version : [SnailQuickMaskPopups](https://github.com/snail-z/SnailQuickMaskPopups.git)
+If you need use the Objective-C version : [SnailQuickMaskPopups](https://github.com/snail-z/SnailQuickMaskPopups.git)
  
 ## License
 
