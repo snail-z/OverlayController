@@ -8,7 +8,7 @@
 
 ## Requirements
 
-*  Swift 3
+*  Swift 3.0
 *  iOS 8 or higher
 
 ## Installation
@@ -16,13 +16,16 @@ Available in [CocoaPods](https://cocoapods.org "CocoaPods" )
 
 To install OverlayController using [CocoaPods](https://cocoapods.org "CocoaPods" ), please integrate it in your existing Podfile, or create a new Podfile:
 
+``` swift
         platform :ios, '8.0'
         use_frameworks!
 
         target ‘You Project' do
     	    pod 'OverlayController', '~> 0.0.1'
         end
-    
+```
+Then run pod install.
+
 ## Usage scenario 
 ![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/alert%20style.gif)
 ![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/shared%20style.gif)
@@ -85,3 +88,6 @@ To install OverlayController using [CocoaPods](https://cocoapods.org "CocoaPods"
     
  ```
  
+## License
+
+OverlayController is distributed under the MIT license.
