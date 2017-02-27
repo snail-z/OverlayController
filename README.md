@@ -1,4 +1,5 @@
 # OverlayController-Swift
+![image](https://camo.githubusercontent.com/f5590872a42f5a6af60f42caf56620d05bdb917b/68747470733a2f2f7472617669732d63692e6f72672f736265727265766f6574732f534443416c657274566965772e7376673f6272616e63683d6d6173746572)
   
  This OverlayController is  Convenient to make an overlay. Written in Swift 3.0 !  
  
