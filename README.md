@@ -3,7 +3,7 @@
   
  This OverlayController is  Convenient to make an overlay. Written in Swift 3.0 !  
  
- Objective-C  version : SnailQuickMaskPopups
+ Objective-C  version : [SnailQuickMaskPopups](https://github.com/snail-z/SnailQuickMaskPopups.git)
 
 ## Requirements
 
