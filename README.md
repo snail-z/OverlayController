@@ -1,9 +1,19 @@
 # OverlayController-Swift
 ![image](https://camo.githubusercontent.com/f5590872a42f5a6af60f42caf56620d05bdb917b/68747470733a2f2f7472617669732d63692e6f72672f736265727265766f6574732f534443416c657274566965772e7376673f6272616e63683d6d6173746572)
+![enter image description here](https://img.shields.io/badge/pod-v0.0.1-brightgreen.svg)
+![enter image description here](https://img.shields.io/badge/platform-iOS%208.0%2B-ff69b5152950834.svg) 
+<a href="https://github.com/snail-z/OverlayController-Swift/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat"></a>
   
- This OverlayController is  Convenient to make an overlay. Written in Swift 3.0 !  
+  OverlayController is an implementation of a overlay effect for any view. It can be used to easily add dynamics to user interactions and popups views. Written in Swift 3.0 !
  
  Objective-C  version : [SnailQuickMaskPopups](https://github.com/snail-z/SnailQuickMaskPopups.git)
+ 
+![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/alert%20style.gif)
+![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/shared%20style.gif)
+![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/qzone%20style.gif)
+
+![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/sidebar%20style.gif)
+![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/sina%20style.gif)
 
 ## Installation
 To install OverlayController using [CocoaPods](https://cocoapods.org "CocoaPods" ), please integrate it in your existing Podfile, or create a new Podfile:
@@ -22,14 +32,6 @@ Then run pod install.
 
 *  Swift 3.0
 *  iOS 8 or higher
-
-## Scenarios
-![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/alert%20style.gif)
-![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/shared%20style.gif)
-![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/qzone%20style.gif)
-
-![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/sidebar%20style.gif)
-![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/sina%20style.gif)
  
 ## Usage
 
