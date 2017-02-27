@@ -18,12 +18,12 @@
 To install OverlayController using [CocoaPods](https://cocoapods.org "CocoaPods" ), please integrate it in your existing Podfile, or create a new Podfile:
 
 ```ruby
-        platform :ios, '8.0'
-        use_frameworks!
+    platform :ios, '8.0'
+    use_frameworks!
 
-        target 'You Project' do
-    	    pod 'OverlayController', '~> 0.0.1'
-        end
+    target 'You Project' do
+      pod 'OverlayController', '~> 0.0.1'
+    end
 ```
 Then run pod install.
 
