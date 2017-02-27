@@ -5,9 +5,9 @@
 <a href="https://github.com/snail-z/OverlayController-Swift/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat"></a>
   
   *OverlayController is an implementation of a overlay effect for any view. It can be used to easily add dynamics to user interactions and popups views.*       
-          
-          
-![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/alert%20style.gif)
+
+     
+     ![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/alert%20style.gif)
 ![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/shared%20style.gif)
 ![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/qzone%20style.gif)
 
