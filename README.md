@@ -13,6 +13,7 @@ Available in [CocoaPods](https://cocoapods.org "CocoaPods" )
 ![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/alert%20style.gif)
 ![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/shared%20style.gif)
 ![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/qzone%20style.gif)
+
 ![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/sidebar%20style.gif)
 ![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/sina%20style.gif)
  
