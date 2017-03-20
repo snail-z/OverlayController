@@ -8,7 +8,7 @@
   
 #### _[Objective-C version is here.](https://github.com/snail-z/SnailQuickMaskPopups.git) - [SnailQuickMaskPopups](https://github.com/snail-z/SnailQuickMaskPopups.git)_
 
-  
+## Usage scenario
 ![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/alert%20style.gif)
 ![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/shared%20style.gif)
 ![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/qzone%20style.gif)
