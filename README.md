@@ -6,9 +6,8 @@
   
   *OverlayController is an implementation of a overlay effect for any view. It can be used to easily add dynamics to user interactions and popups views.*  
   
-=====
 #### _[Objective-C version is here.](https://github.com/snail-z/SnailQuickMaskPopups.git) - [SnailQuickMaskPopups](https://github.com/snail-z/SnailQuickMaskPopups.git)_
-=====  
+
   
 ![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/alert%20style.gif)
 ![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/shared%20style.gif)
