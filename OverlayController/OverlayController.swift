@@ -39,13 +39,27 @@ public enum PresentationStyle {
  ! When PresentationStyle is not 'Centered', set is invalid.
  */
 public enum TransitionStyle {
-    case CrossDissolve, Zoom, FromTop, FromBottom, FromLeft, FromRight
+    case CrossDissolve, Zoom, FromTop, FromBottom, FromLeft, FromRight, FromCenter
+}
+
+/**
+ - Protocol -
+ ! OverlayControllerDelegate
+ */
+@objc protocol OverlayControllerDelegate: class {
+    // WillPresent delegate to be executed before the view is presented.
+    @objc optional func overlayControllerWillPresent(overlayController: OverlayController)
+    @objc optional func overlayControllerDidPresent (overlayController: OverlayController)
+    @objc optional func overlayControllerWillDismiss(overlayController: OverlayController)
+    @objc optional func overlayControllerDidDismiss (overlayController: OverlayController)
 }
 
 // MARK: - OverlayController class implementation -
 
 class OverlayController: NSObject, UIGestureRecognizerDelegate{
 
+    weak var delegate: OverlayControllerDelegate?
+    
     // MARK:- Variables -
     
     open var presentationStyle: PresentationStyle = .Centered
@@ -54,6 +68,7 @@ class OverlayController: NSObject, UIGestureRecognizerDelegate{
     open var animateDuration: TimeInterval = 0.25
     open var isAllowOverlayTouch = true
     open var isAllowDrag   = false
+    open var isUsingElastic = false // Using elastic animation
     
     /**
      The view disappear in the opposite direction.
@@ -79,8 +94,10 @@ class OverlayController: NSObject, UIGestureRecognizerDelegate{
         var frame = aView.frame; frame.origin = .zero; aView.frame = frame
         popupView.frame = aView.frame
         popupView.clipsToBounds = true
-        popupView.layer.cornerRadius = aView.layer.cornerRadius
         popupView.backgroundColor = aView.backgroundColor
+        if aView.layer.cornerRadius > 0 {
+            popupView.layer.cornerRadius = aView.layer.cornerRadius
+        }
         popupView.addSubview(aView)
         overlay.addSubview(popupView)
         
@@ -120,59 +137,67 @@ class OverlayController: NSObject, UIGestureRecognizerDelegate{
     
     // MARK:- Present -
     
-    public func present(animated: Bool, completions: ((Bool, OverlayController) -> Swift.Void)? = nil) {
+    public func present(animated: Bool, completions: ((OverlayController) -> Swift.Void)? = nil) {
         
+        delegate?.overlayControllerWillPresent?(overlayController: self)
+        
+        popupView.isUserInteractionEnabled = false
         isAnimated = animated
         superview.addSubview(overlay)
         overlay.alpha = 0
         popupView.center = startPoint()
-        UIView.animate(withDuration: isAnimated ? animateDuration : 0, delay: 0.1, options: UIViewAnimationOptions.curveEaseIn, animations: { () -> Void in
-            self.overlay.alpha = 1
-            self.popupView.center = self.finishedPoint()
-        }, completion: { (finished: Bool) in
-            self.isPresented = true
-            if (completions != nil) {
-                completions!(finished, self)
+        if isUsingElastic {
+            animateDuration *= 3
+            UIView.animate(withDuration: animated ? animateDuration : 0, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.2, options: .curveLinear, animations: {
+                self.overlay.alpha = 1
+                self.popupView.center = self.finishedPoint()
+            }) { (finished: Bool) in
+                self.popupView.isUserInteractionEnabled = true
+                if !finished { return }
+                self.isPresented = true
+                if (completions != nil) {
+                    completions!(self)
+                } else {
+                    self.delegate?.overlayControllerDidPresent?(overlayController: self)
+                }
             }
-        })
+        } else {
+            UIView.animate(withDuration: animated ? animateDuration : 0, delay: 0.1, options: UIViewAnimationOptions.curveEaseIn, animations: { () -> Void in
+                self.overlay.alpha = 1
+                self.popupView.center = self.finishedPoint()
+            }, completion: { (finished: Bool) in
+                self.popupView.isUserInteractionEnabled = true
+                if !finished { return }
+                self.isPresented = true
+                if (completions != nil) {
+                    completions!(self)
+                } else {
+                    self.delegate?.overlayControllerDidPresent?(overlayController: self)
+                }
+            })
+        }
     }
-    
-    /**
-     presentExtra
-     
-     - parameter willPresent: WillPresent block to be executed before the view is presented.
-     - parameter completions: Completion block to be executed after the view is presented.
-     */
-    public func presentExtra(animated: Bool, willPresent:((OverlayController) -> Swift.Void)? = nil, didPresent completions: ((Bool, OverlayController) -> Swift.Void)? = nil) {
-        if willPresent != nil { willPresent!(self) }
-        present(animated: animated, completions: completions)
-    }
-    
+
     // MARK:- Dismiss -
     
-    public func dismiss(animated: Bool, completions: ((Bool, OverlayController) -> Swift.Void)? = nil) {
+    public func dismiss(animated: Bool, completions: ((OverlayController) -> Swift.Void)? = nil) {
+    
+        delegate?.overlayControllerWillDismiss?(overlayController: self)
         
+        if isUsingElastic { animateDuration *= 0.3 }
         UIView.animate(withDuration: animated ? animateDuration : 0, delay: 0.1, options: UIViewAnimationOptions.curveEaseOut, animations: { () -> Void in
             self.overlay.alpha = 0
             self.popupView.center = self.dismissedPoint()
         }, completion: { (finished: Bool) in
+            if !finished { return }
             self.isPresented = false
             self.overlay.removeFromSuperview()
             if (completions != nil) {
-                completions!(finished, self)
+                completions!(self)
+            } else {
+                self.delegate?.overlayControllerDidDismiss?(overlayController: self)
             }
         })
-    }
-    
-    /**
-     dismissExtra
-     
-     - parameter willDismiss: WillDismiss block to be executed before the view is dismissed.
-     - parameter completions: Completion block to be executed after the view is dismissed.
-     */
-    public func dismissExtra(animated: Bool, willDismiss:((OverlayController) -> Swift.Void)? = nil, didDismiss completions: ((Bool, OverlayController) -> Swift.Void)? = nil) {
-        if willDismiss != nil { willDismiss!(self) }
-        dismiss(animated: animated, completions: completions)
     }
     
     // MARK:- Calculation of relevant points -
@@ -202,8 +227,12 @@ class OverlayController: NSObject, UIGestureRecognizerDelegate{
         var point = overlay.center
         switch presentationStyle {
         case .Centered:
-            if transitionStyle == TransitionStyle.Zoom {
-                overlay.transform = CGAffineTransform(scaleX: 1, y: 1);
+            switch transitionStyle {
+            case .Zoom:
+                overlay.transform = CGAffineTransform(scaleX: 1, y: 1)
+            case .FromCenter:
+                popupView.transform = CGAffineTransform(scaleX: 1, y: 1)
+            default: break
             }
         case .Bottom:
             point = CGPoint(x: overlay.center.x, y: overlay.bounds.size.height - popupView.bounds.size.height * 0.5)
@@ -243,7 +272,7 @@ class OverlayController: NSObject, UIGestureRecognizerDelegate{
         switch transitionStyle {
         case .CrossDissolve: break
         case .Zoom:
-            overlay.transform = CGAffineTransform(scaleX: 1.15, y: 1.15);
+            overlay.transform = CGAffineTransform(scaleX: 1.15, y: 1.15)
         case .FromTop:
             point = CGPoint(x: overlay.center.x, y: -popupView.bounds.size.height)
         case .FromBottom:
@@ -252,6 +281,8 @@ class OverlayController: NSObject, UIGestureRecognizerDelegate{
             point = CGPoint(x: -popupView.bounds.size.width, y: overlay.center.y)
         case .FromRight:
             point = CGPoint(x: popupView.bounds.size.width, y: overlay.center.y)
+        case .FromCenter:
+            popupView.transform = CGAffineTransform(scaleX: 0.05, y: 0.05)
         }
         return point
     }
@@ -267,6 +298,8 @@ class OverlayController: NSObject, UIGestureRecognizerDelegate{
             point = isDismissedOppositeDirection ? CGPoint(x: overlay.bounds.size.width + popupView.bounds.size.width, y: overlay.center.y) : CGPoint(x: -popupView.bounds.size.width, y: overlay.center.y)
         case .FromRight:
             point = isDismissedOppositeDirection ? CGPoint(x: -popupView.bounds.size.width, y: overlay.center.y) : CGPoint(x: overlay.bounds.size.width + popupView.bounds.size.width, y: overlay.center.y)
+        case .FromCenter:
+            popupView.transform = CGAffineTransform(scaleX: 0.05, y: 0.05)
         case .CrossDissolve, .Zoom: break
         }
         return point
@@ -310,7 +343,7 @@ class OverlayController: NSObject, UIGestureRecognizerDelegate{
                 switch transitionStyle {
                 case .FromLeft, .FromRight:
                     gView.center = CGPoint(x: gView.center.x + translationPoint.x, y: gView.center.y)
-                    refer = gView.center.x / (overlay.bounds.size.width / divisor);
+                    refer = gView.center.x / (overlay.bounds.size.width / divisor)
                 default:
                     gView.center = CGPoint(x: gView.center.x, y: gView.center.y + translationPoint.y)
                     refer = gView.center.y / (overlay.bounds.size.height / divisor)
@@ -366,7 +399,7 @@ class OverlayController: NSObject, UIGestureRecognizerDelegate{
                 if isCentered {
                     let temp = isDismissedOppositeDirection
                     switch transitionStyle {
-                    case .CrossDissolve, .Zoom:
+                    case .CrossDissolve, .Zoom, .FromCenter:
                         if gView.center.y < overlay.bounds.size.height * rate {
                             transitionStyle = .FromTop
                         }
@@ -387,10 +420,16 @@ class OverlayController: NSObject, UIGestureRecognizerDelegate{
                 }
                 dismiss(animated: true)
             } else {
-                UIView.animate(withDuration: 0.15, animations: {
-                    // Restore 'gView' location
-                    gView.center = self.finishedPoint()
-                })
+                // Restore 'gView' location
+                if isUsingElastic {
+                    UIView.animate(withDuration: animateDuration, delay: 0.1, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.2, options: .curveLinear, animations: {
+                        gView.center = self.finishedPoint()
+                    }, completion: nil)
+                } else {
+                    UIView.animate(withDuration: animateDuration, animations: {
+                        gView.center = self.finishedPoint()
+                    })
+                }
             }
         default: break
         }

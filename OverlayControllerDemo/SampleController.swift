@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SampleController: UITableViewController, SnailFullViewDelegate {
+class SampleController: UITableViewController, SnailFullViewDelegate, OverlayControllerDelegate {
 
     var styles: Array<String>! , colors: Array<String>! , methods: Array<String> = []
     
@@ -31,10 +31,10 @@ class SampleController: UITableViewController, SnailFullViewDelegate {
     
     func contentsInitialization() {
         styles = [
-            "Alert style", "Shared style", "Qzone style", "Sidebar style", "Sina style"
+            "Alert style", "Slogan style", "Shared style", "Qzone style", "Sidebar style", "Sina style"
         ]
         colors = [
-            "#FC7541", "#6ECCCA", "#707070", "#7ABE64", "#63B4D6"
+            "#FC7541", "#57D4AD", "#E8AD62", "#707070", "#7ABE64", "#63B4D6"
         ]
         for i in 1...styles.count {
             methods.append("sample".appendingFormat("\(i)"))
@@ -61,7 +61,7 @@ class SampleController: UITableViewController, SnailFullViewDelegate {
         if responds(to: selector) { perform(selector) }
     }
     
-    // MARK: - Sample
+    // MARK: - Sample ☟
     
     func sample1() {
         let warnView = SnailWarnView()
@@ -74,10 +74,21 @@ class SampleController: UITableViewController, SnailFullViewDelegate {
         overlayController.transitionStyle = .FromTop
         overlayController.isAllowOverlayTouch = false
         overlayController.isDismissedOppositeDirection = true
+        overlayController.isUsingElastic = true
         overlayController.present(animated: true)
     }
     
     func sample2() {
+        let sloganView = UIImageView(image: UIImage(named: "slogan.jpg"))
+        sloganView.size = CGSize(width: UIScreen.width * 0.75, height: UIScreen.width * 0.9)
+        sloganView.layer.cornerRadius = 4
+        overlayController = OverlayController(aView: sloganView, overlayStyle: .BlackTranslucent)
+        overlayController.transitionStyle = .FromCenter
+        overlayController.isUsingElastic = true
+        overlayController.present(animated: true)
+    }
+    
+    func sample3() {
         let array = [
             "微信好友", "朋友圈", "新浪微博", "QQ好友", "跳转"
         ]
@@ -88,10 +99,12 @@ class SampleController: UITableViewController, SnailFullViewDelegate {
         overlayController = OverlayController(aView: sheetView, overlayStyle: .BlackTranslucent)
         overlayController.presentationStyle = .Bottom
         overlayController.isAllowDrag = true
+        overlayController.isUsingElastic = true
+        overlayController.delegate = self;
         overlayController.present(animated: true)
     }
     
-    func sample3() {
+    func sample4() {
         let array = [
             "说说", "照片", "视频", "签到", "大头贴"
         ]
@@ -105,7 +118,7 @@ class SampleController: UITableViewController, SnailFullViewDelegate {
         overlayController.present(animated: true)
     }
     
-    func sample4() {
+    func sample5() {
         let sidebarView = SnailSidebarView()
         sidebarView.size = CGSize(width: UIScreen.width - 70, height: UIScreen.height)
         sidebarView.backgroundColor = UIColor.rgb(r: 24, g: 28, b: 45).withAlphaComponent(0.8)
@@ -117,7 +130,7 @@ class SampleController: UITableViewController, SnailFullViewDelegate {
         overlayController.present(animated: true)
     }
     
-    func sample5() {
+    func sample6() {
         let array = [
             "文字", "照片视频", "头条文章", "红包", "直播", "更多", "点评", "好友圈", "音乐", "商品", "签到", "秒拍"
         ]
@@ -133,9 +146,27 @@ class SampleController: UITableViewController, SnailFullViewDelegate {
         fullView.size = UIScreen.size
         fullView.delegate = self
         
-        overlayController = OverlayController.init(aView: fullView, overlayStyle: .WhiteBlur)
+        overlayController = OverlayController(aView: fullView, overlayStyle: .WhiteBlur)
         overlayController.isAllowDrag = true
         overlayController.present(animated: true)
+    }
+    
+    // MARK: - OverlayControllerDelegate
+    
+    func overlayControllerWillPresent(overlayController: OverlayController) {
+        print("overlayControllerWillPresent~")
+    }
+    
+    func overlayControllerDidPresent(overlayController: OverlayController) {
+        print("overlayControllerDidPresent~")
+    }
+    
+    func overlayControllerWillDismiss(overlayController: OverlayController) {
+        print("overlayControllerWillDismiss~")
+    }
+    
+    func overlayControllerDidDismiss(overlayController: OverlayController) {
+        print("overlayControllerDidDismiss~")
     }
     
     // MARK: - SnailFullViewDelegate
@@ -145,7 +176,7 @@ class SampleController: UITableViewController, SnailFullViewDelegate {
     }
     
     func fullView(_ fullView: SnailFullView, didSelectItemAt index: Int) {
-        overlayController.dismiss(animated: true) { [weak self] (finished: Bool, overlayController: OverlayController) in
+        overlayController.dismiss(animated: true) { [weak self] (overlayController: OverlayController) in
             let text = fullView.bannerViews[index].label.text!
             self?.showAlert(title: text)
         }
