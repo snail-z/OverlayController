@@ -8,14 +8,6 @@
   
 #### _[Objective-C version is here.](https://github.com/snail-z/SnailQuickMaskPopups.git) - [SnailQuickMaskPopups](https://github.com/snail-z/SnailQuickMaskPopups.git)_
 
-## Usage scenario
-![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/alert%20style.gif)
-![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/shared%20style.gif)
-![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/qzone%20style.gif)
-
-![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/sidebar%20style.gif)
-![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/sina%20style.gif)
-
 ## Installation
 To install OverlayController using [CocoaPods](https://cocoapods.org "CocoaPods" ), please integrate it in your existing Podfile, or create a new Podfile:
 
@@ -29,11 +21,48 @@ To install OverlayController using [CocoaPods](https://cocoapods.org "CocoaPods"
 ```
 Then run pod install.
 
+## Example
+![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/alert%20style.gif)
+![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/slogan%20style.gif?raw=true)
+![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/shared%20style.gif?raw=true)
+
+![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/qzone%20style.gif)
+![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/sidebar%20style.gif)
+![image](https://github.com/snail-z/OverlayController-Swift/blob/master/Sample/sina%20style.gif)
+
+
 ## Requirements
 
 *  Swift 3.0
 *  iOS 8 or higher
- 
+
+## Update
+* Add elastic animation, set by `isUsingElastic`
+```swift
+  open var isUsingElastic = false // Using elastic animation
+```
+* Add transition effects, set by `TransitionStyle -> FromCenter`
+```swift
+  public enum TransitionStyle {
+    case CrossDissolve, Zoom, FromTop, FromBottom, FromLeft, FromRight, FromCenter
+}
+```
+* Add the corresponding delegate method.
+```swift
+/**
+ - Protocol -
+ ! OverlayControllerDelegate
+ */
+@objc protocol OverlayControllerDelegate: class {
+    // WillPresent delegate to be executed before the view is presented.
+    @objc optional func overlayControllerWillPresent(overlayController: OverlayController)
+    @objc optional func overlayControllerDidPresent (overlayController: OverlayController)
+    @objc optional func overlayControllerWillDismiss(overlayController: OverlayController)
+    @objc optional func overlayControllerDidDismiss (overlayController: OverlayController)
+}
+```
+More details, please see the demo.
+  
 ## Usage
 
 ``` swift
@@ -43,8 +72,8 @@ Then run pod install.
     overlayController = OverlayController(aView: customView, overlayStyle: .BlackTranslucent)
     overlayController.present(animated: true)
     
- ```
- *  Properties
+ ``` 
+*  Properties
 ``` swift
 
     open var presentationStyle: PresentationStyle = .Centered
@@ -60,31 +89,29 @@ Then run pod install.
      */
     open var isDismissedOppositeDirection = false
     
+    // Using elastic animation
+    open var isUsingElastic = false 
+    
  ```
- *  Closures
-``` objc
-    /**
-     presentExtra
-     
-     - parameter willPresent: WillPresent block to be executed before the view is presented.
-     - parameter completions: Completion block to be executed after the view is presented.
-     */
-    overlayController.presentExtra(animated: true, willPresent: { (overlayController: OverlayController) in
-        // code...
-    }) { (finished: Bool, overlayController: OverlayController) in
-        // code...
+*  Delegate
+``` swift
+
+    // MARK: - OverlayControllerDelegate
+    
+    func overlayControllerWillPresent(overlayController: OverlayController) {
+        print("overlayControllerWillPresent~")
     }
     
-    /**
-     dismissExtra
-     
-     - parameter willDismiss: WillDismiss block to be executed before the view is dismissed.
-     - parameter completions: Completion block to be executed after the view is dismissed.
-     */
-    overlayController.dismissExtra(animated: true, willDismiss: { (overlayController: OverlayController) in
-        // code...
-    }) { (finished: Bool, overlayController: OverlayController) in
-        // code...
+    func overlayControllerDidPresent(overlayController: OverlayController) {
+        print("overlayControllerDidPresent~")
+    }
+    
+    func overlayControllerWillDismiss(overlayController: OverlayController) {
+        print("overlayControllerWillDismiss~")
+    }
+    
+    func overlayControllerDidDismiss(overlayController: OverlayController) {
+        print("overlayControllerDidDismiss~")
     }
     
  ```
