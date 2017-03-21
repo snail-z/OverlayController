@@ -16,7 +16,7 @@ To install OverlayController using [CocoaPods](https://cocoapods.org "CocoaPods"
     use_frameworks!
 
     target 'You Project' do
-      pod 'OverlayController', '~> 0.0.1'
+      pod 'OverlayController', '~> 0.0.2'
     end
 ```
 Then run pod install.
