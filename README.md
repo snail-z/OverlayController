@@ -5,8 +5,8 @@
 <a href="https://github.com/snail-z/OverlayController-Swift/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat"></a>
   
 OverlayController is an implementation of a overlay effect for any view. It can be used to easily add dynamics to user interactions and popups views.
-  
-#### _[Objective-C version is here.](https://github.com/snail-z/SnailQuickMaskPopups.git)_
+
+#### [Objective-C version is here.](https://github.com/snail-z/SnailQuickMaskPopups.git)
 
 ## Installation
 To install OverlayController using [CocoaPods](https://cocoapods.org "CocoaPods" ), please integrate it in your existing Podfile, or create a new Podfile:
