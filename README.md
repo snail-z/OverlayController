@@ -1,13 +1,13 @@
-# OverlayController
+<img src="https://github.com/snail-z/OverlayController/blob/master/Preview/ovclogo.jpg?raw=true" width="720px" height="95px">
 
 [![Swift 5.0](https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat)](https://developer.apple.com/swift/)
 ![enter image description here](https://img.shields.io/badge/pod-v1.0.0-brightgreen.svg)
 ![enter image description here](https://img.shields.io/badge/platform-iOS%2010.0%2B-ff69b5152950834.svg) 
 <a href="https://github.com/snail-z/OverlayController-Swift/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat"></a>
 
-OverlayController is an implementation of a overlay effect for any view. It can be used to easily add dynamics to user interactions and popups views. If you need  Objective-C version, please see [here](hee)
+OverlayController is an implementation of a overlay effect for any view. It can be used to easily add dynamics to user interactions and popups views. If you need  Objective-C version, please see [here](https://github.com/snail-z/zhPopupController)
 
-<img src="https://github.com/snail-z/zhLoadingView/blob/develop/imgs/zhpopupController05.gif?raw=true" width="168px">
+<img src="https://github.com/snail-z/OverlayController/blob/master/Preview/full1.gif?raw=true" width="168px">
 
 ## Example
 
@@ -45,7 +45,7 @@ Support following keyboard popup and hide
 
 Set overlay view priority. default is OverlayLevel.normal by `windowLevel`
 
-<img src="https://github.com/snail-z/zhLoadingView/blob/develop/imgs/zhpopupController05.gif?raw=true" width="168px">
+<img src="https://github.com/snail-z/OverlayController/blob/master/Preview/full2.gif?raw=true" width="168px">
 
 ## Author
 
