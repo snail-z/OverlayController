@@ -55,7 +55,7 @@ public class OverlayShareView: UIView, UITableViewDataSource, UITableViewDelegat
         blurView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
         addSubview(blurView)
         
-        tableView = UITableView(frame: .zero, style: .plain)
+        tableView = UITableView(frame: frame, style: .plain)
         tableView.backgroundColor = .clear
         tableView.dataSource = self
         tableView.delegate = self
@@ -87,17 +87,19 @@ public class OverlayShareView: UIView, UITableViewDataSource, UITableViewDelegat
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        guard let arr = dataList, !arr.isEmpty else { return }
+        guard let arrs = dataList, !arrs.isEmpty else { return }
         headerLabel.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 36)
-        tableView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: layout.rowHeight * CGFloat(arr.count) + 36)
+        tableView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: layout.rowHeight * CGFloat(arrs.count) + 36)
         blurView.frame = tableView.frame
         bottomView.frame = CGRect(x: 0, y: tableView.frame.maxY, width: bounds.width, height: 50 + UIScreen.pk.safeInsets.bottom)
         cancelBtn.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 50)
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
-        layoutIfNeeded()
-        return CGSize(width: size.width, height: bottomView.frame.maxY)
+        guard let arrs = dataList, !arrs.isEmpty else { return .zero }
+        var height: CGFloat = UIScreen.pk.safeInsets.bottom + 50 + 36
+        height += (CGFloat(arrs.count) * layout.rowHeight)
+        return CGSize(width: size.width, height: height)
     }
 
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -154,11 +156,11 @@ fileprivate class OverlayShareViewCell: UITableViewCell, UICollectionViewDataSou
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(OverlayShareViewItemCell.self, forCellWithReuseIdentifier: cellIdentifier)
-        addSubview(collectionView)
+        contentView.addSubview(collectionView)
         
         separatorLine = UIView()
         separatorLine.backgroundColor = UIColor.gray.withAlphaComponent(0.2)
-        addSubview(separatorLine)
+        contentView.addSubview(separatorLine)
     }
     
     required init?(coder: NSCoder) { super.init(coder: coder) }

@@ -62,8 +62,7 @@ public class OverlayPickerView: UIView, UIPickerViewDataSource, UIPickerViewDele
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
-        layoutIfNeeded()
-        return CGSize(width: size.width, height: pickerView.frame.maxY + UIScreen.pk.safeInsets.bottom + 50)
+        return CGSize(width: size.width, height: 240 + 85 + UIScreen.pk.safeInsets.bottom)
     }
     
     public func numberOfComponents(in pickerView: UIPickerView) -> Int {

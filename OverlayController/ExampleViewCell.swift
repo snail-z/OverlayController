@@ -28,7 +28,7 @@ class ExampleViewCell: UITableViewCell {
         button.layer.cornerRadius = 2
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont.pk.fontName(.gillSans, style: .semiBoldItalic, size: 17)
-        addSubview(button)
+        contentView.addSubview(button)
     }
     
     override func layoutSubviews() {

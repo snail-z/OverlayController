@@ -38,6 +38,30 @@ public enum OverlayWindowLevel: Int {
     case veryLow, low, normal, high, veryHigh
 }
 
+public extension OverlayController {
+
+    /// Present your overlayController of view，If inView is nil will show in window
+    func present(in view: UIView? = nil,
+                 duration: TimeInterval = 0.25,
+                 delay: TimeInterval = 0,
+                 options: UIView.AnimationOptions = [.curveLinear],
+                 isBounced: Bool = false,
+                 completion: (() -> Void)? = nil) {
+        var finalView = view
+        if finalView == nil { finalView = findWindow() }
+        assert(finalView != nil, "Not find a valid visible window or view!")
+        finalView!.ovc_present(overlay: self, duration: duration, delay: delay, options: options, isBounced: isBounced, completion: completion)
+    }
+    
+    /// Dismiss your overlayController of view
+    func dissmiss(duration: TimeInterval = 0.25,
+                  delay: TimeInterval = 0,
+                  options: UIView.AnimationOptions = [.curveEaseOut],
+                  completion: (() -> Void)? = nil) {
+        self._baseView.ovc_dissmiss(overlay: self, duration: duration, delay: delay, options: options, completion: completion)
+    }
+}
+
 public class OverlayController: NSObject, UIGestureRecognizerDelegate {
     
     /// The `view` is the initialize view
@@ -111,18 +135,18 @@ public class OverlayController: NSObject, UIGestureRecognizerDelegate {
         let _size = size.equalTo(.zero) ? view.bounds.size : size
         view.frame = CGRect(origin: .zero, size: _size)
         self.view = view
-        defaultDismissClosure = { (o) in o._baseView.dissmiss(overlay: o) }
+        defaultDismissClosure = { (o) in o._baseView.ovc_dissmiss(overlay: o) }
     }
 
     // - private -
     
     private var _timer: Timer?
     
-    func present(duration: TimeInterval = 0.25,
-                 delay: TimeInterval = 0,
-                 options: UIView.AnimationOptions = [.curveLinear],
-                 isBounced: Bool = false,
-                 completion: (() -> Void)? = nil) {
+    fileprivate func _present(duration: TimeInterval = 0.25,
+                              delay: TimeInterval = 0,
+                              options: UIView.AnimationOptions = [.curveLinear],
+                              isBounced: Bool = false,
+                              completion: (() -> Void)? = nil) {
         if isPresenting { return }
         _maskView.alpha = 0
         prepareSlideStyle()
@@ -172,10 +196,10 @@ public class OverlayController: NSObject, UIGestureRecognizerDelegate {
         }
     }
     
-    fileprivate func dismiss(duration: TimeInterval = 0.25,
-                             delay: TimeInterval = 0,
-                             options: UIView.AnimationOptions = [.curveEaseOut],
-                             completion: (() -> Void)? = nil) {
+    fileprivate func _dismiss(duration: TimeInterval = 0.25,
+                              delay: TimeInterval = 0,
+                              options: UIView.AnimationOptions = [.curveEaseOut],
+                              completion: (() -> Void)? = nil) {
         guard isPresenting else { return }
         self.isPresenting = false
         willDismissClosure?(self)
@@ -492,34 +516,45 @@ public class OverlayController: NSObject, UIGestureRecognizerDelegate {
     }
 }
 
+private extension OverlayController {
+    
+    func findWindow() -> UIWindow? {
+        if let window = UIApplication.shared.delegate?.window as? UIWindow {
+            return window;
+        }
+        if #available(iOS 13.0, *) {
+            return UIApplication.shared.windows.first
+        } else {
+            return UIApplication.shared.keyWindow
+        }
+    }
+}
 
 private var AssociatedOverlayControllersKey: Void?
+
 private extension UIView {
-    var _overlayControllers: Set<OverlayController>? {
+    
+    var ovc_overlayControllers: Set<OverlayController>? {
         get {
             objc_getAssociatedObject(self, &AssociatedOverlayControllersKey) as? Set<OverlayController>
         } set {
             objc_setAssociatedObject(self, &AssociatedOverlayControllersKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
-}
-
-public extension UIView {
     
-    /// Present your overlayController of view
-    func present(overlay ovc: OverlayController,
-                 duration: TimeInterval = 0.25,
-                 delay: TimeInterval = 0,
-                 options: UIView.AnimationOptions = [.curveLinear],
-                 isBounced: Bool = false,
-                 completion: (() -> Void)? = nil) {
-        if _overlayControllers == nil { _overlayControllers = Set() }
+    func ovc_present(overlay ovc: OverlayController,
+                     duration: TimeInterval = 0.25,
+                     delay: TimeInterval = 0,
+                     options: UIView.AnimationOptions = [.curveLinear],
+                     isBounced: Bool = false,
+                     completion: (() -> Void)? = nil) {
+        if ovc_overlayControllers == nil { ovc_overlayControllers = Set() }
     
         ovc._baseView = self
-        if _overlayControllers!.isEmpty {
+        if ovc_overlayControllers!.isEmpty {
             ovc.addSubview()
         } else {
-            let sorts = _overlayControllers!.sorted(by: { $0.windowLevel.rawValue < $1.windowLevel.rawValue })
+            let sorts = ovc_overlayControllers!.sorted(by: { $0.windowLevel.rawValue < $1.windowLevel.rawValue })
             if let top = sorts.last, ovc.windowLevel.rawValue >= top.windowLevel.rawValue {
                 ovc.addSubview()
             } else {
@@ -532,19 +567,18 @@ public extension UIView {
             }
         }
         
-        _overlayControllers!.insert(ovc)
-        ovc.present(duration: duration, delay: delay, options: options, isBounced: isBounced, completion: completion)
+        ovc_overlayControllers!.insert(ovc)
+        ovc._present(duration: duration, delay: delay, options: options, isBounced: isBounced, completion: completion)
     }
     
-    /// Dismiss your overlayController of view
-    func dissmiss(overlay ovc: OverlayController,
-                  duration: TimeInterval = 0.25,
-                  delay: TimeInterval = 0,
-                  options: UIView.AnimationOptions = [.curveEaseOut],
-                  completion: (() -> Void)? = nil) {
-        guard _overlayControllers != nil else { return }
-        ovc.dismiss(duration: duration, delay: delay, options: options, completion: completion)
-        _overlayControllers!.remove(ovc)
-        if _overlayControllers!.isEmpty { _overlayControllers = nil }
+    func ovc_dissmiss(overlay ovc: OverlayController,
+                                  duration: TimeInterval = 0.25,
+                                  delay: TimeInterval = 0,
+                                  options: UIView.AnimationOptions = [.curveEaseOut],
+                                  completion: (() -> Void)? = nil) {
+        guard ovc_overlayControllers != nil else { return }
+        ovc._dismiss(duration: duration, delay: delay, options: options, completion: completion)
+        ovc_overlayControllers!.remove(ovc)
+        if ovc_overlayControllers!.isEmpty { ovc_overlayControllers = nil }
     }
 }
