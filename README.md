@@ -1,7 +1,7 @@
 <img src="https://github.com/snail-z/OverlayController/blob/master/Preview/ovclogo.jpg?raw=true" width="720px" height="95px">
 
 [![Swift 5.0](https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat)](https://developer.apple.com/swift/)
-![enter image description here](https://img.shields.io/badge/pod-v1.0.0-brightgreen.svg)
+![enter image description here](https://img.shields.io/badge/pod-v1.0.1-brightgreen.svg)
 ![enter image description here](https://img.shields.io/badge/platform-iOS%2010.0%2B-ff69b5152950834.svg) 
 <a href="https://github.com/snail-z/OverlayController-Swift/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat"></a>
 
@@ -24,7 +24,7 @@ OverlayController is available through [CocoaPods](https://cocoapods.org). To in
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'OverlayController', '~> 1.0.0'
+pod 'OverlayController', '~> 1.0.1'
 ```
 
 ## Usage
