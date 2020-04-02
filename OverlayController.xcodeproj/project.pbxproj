@@ -23,10 +23,10 @@
 		3ED2A26E2407BC1E00775EA4 /* OverlayShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED2A26A2407BC1E00775EA4 /* OverlayShareView.swift */; };
 		3ED2A26F2407BC1E00775EA4 /* OverlayPublishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED2A26B2407BC1E00775EA4 /* OverlayPublishView.swift */; };
 		3ED2A2702407BC1E00775EA4 /* OverlaySidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED2A26C2407BC1E00775EA4 /* OverlaySidebarView.swift */; };
-		3ED2A2742407BDDE00775EA4 /* OverlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED2A2732407BDDE00775EA4 /* OverlayController.swift */; };
 		3ED2A2762407ED7B00775EA4 /* OverlaySocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED2A2752407ED7B00775EA4 /* OverlaySocialView.swift */; };
 		3ED2A2782408090C00775EA4 /* ExampleViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED2A2772408090C00775EA4 /* ExampleViewCell.swift */; };
 		3ED2A27A240814E200775EA4 /* OverlayBalloonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED2A279240814E200775EA4 /* OverlayBalloonView.swift */; };
+		3EDD02BD24358C7E0003B78F /* OverlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDD02BC24358C7E0003B78F /* OverlayController.swift */; };
 		3EFF8F0D2434790D00185885 /* UIColor+PKExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFF8EF72434790D00185885 /* UIColor+PKExtensions.swift */; };
 		3EFF8F0E2434790D00185885 /* NSAttributedString+PKExtensionsl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFF8EF82434790D00185885 /* NSAttributedString+PKExtensionsl.swift */; };
 		3EFF8F0F2434790D00185885 /* UIButton+PKExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFF8EF92434790D00185885 /* UIButton+PKExtensions.swift */; };
@@ -91,10 +91,10 @@
 		3ED2A26A2407BC1E00775EA4 /* OverlayShareView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayShareView.swift; sourceTree = "<group>"; };
 		3ED2A26B2407BC1E00775EA4 /* OverlayPublishView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayPublishView.swift; sourceTree = "<group>"; };
 		3ED2A26C2407BC1E00775EA4 /* OverlaySidebarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlaySidebarView.swift; sourceTree = "<group>"; };
-		3ED2A2732407BDDE00775EA4 /* OverlayController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OverlayController.swift; path = ../OverlayController.swift; sourceTree = "<group>"; };
 		3ED2A2752407ED7B00775EA4 /* OverlaySocialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlaySocialView.swift; sourceTree = "<group>"; };
 		3ED2A2772408090C00775EA4 /* ExampleViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewCell.swift; sourceTree = "<group>"; };
 		3ED2A279240814E200775EA4 /* OverlayBalloonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayBalloonView.swift; sourceTree = "<group>"; };
+		3EDD02BC24358C7E0003B78F /* OverlayController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayController.swift; sourceTree = "<group>"; };
 		3EFF8EF72434790D00185885 /* UIColor+PKExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+PKExtensions.swift"; sourceTree = "<group>"; };
 		3EFF8EF82434790D00185885 /* NSAttributedString+PKExtensionsl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+PKExtensionsl.swift"; sourceTree = "<group>"; };
 		3EFF8EF92434790D00185885 /* UIButton+PKExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+PKExtensions.swift"; sourceTree = "<group>"; };
@@ -168,7 +168,7 @@
 		3ED2A20524067A4100775EA4 /* OverlayController */ = {
 			isa = PBXGroup;
 			children = (
-				3EFF8F232434793600185885 /* overlay */,
+				3EDD02BB24358C690003B78F /* classes */,
 				3ED2A2672407821300775EA4 /* view */,
 				3ED2A20624067A4100775EA4 /* AppDelegate.swift */,
 				3ED2A20824067A4100775EA4 /* SceneDelegate.swift */,
@@ -217,6 +217,14 @@
 			path = view;
 			sourceTree = "<group>";
 		};
+		3EDD02BB24358C690003B78F /* classes */ = {
+			isa = PBXGroup;
+			children = (
+				3EDD02BC24358C7E0003B78F /* OverlayController.swift */,
+			);
+			path = classes;
+			sourceTree = "<group>";
+		};
 		3EFF8EF62434790D00185885 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -245,14 +253,6 @@
 			);
 			name = Extensions;
 			path = OverlayController/Extensions;
-			sourceTree = "<group>";
-		};
-		3EFF8F232434793600185885 /* overlay */ = {
-			isa = PBXGroup;
-			children = (
-				3ED2A2732407BDDE00775EA4 /* OverlayController.swift */,
-			);
-			path = overlay;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -409,7 +409,6 @@
 				3EFF8F0D2434790D00185885 /* UIColor+PKExtensions.swift in Sources */,
 				3EFF8F172434790D00185885 /* UILabel+PKExtensions.swift in Sources */,
 				3EFF8F152434790D00185885 /* UIBarButtonItem+PKExtensions.swift in Sources */,
-				3ED2A2742407BDDE00775EA4 /* OverlayController.swift in Sources */,
 				3EFF8F132434790D00185885 /* UIFont+PKExtensions.swift in Sources */,
 				3E382921240BDE4A006BE900 /* DataSource.swift in Sources */,
 				3EFF8F222434790D00185885 /* UIKit+PKOverride.swift in Sources */,
@@ -420,6 +419,7 @@
 				3E382923240D25F4006BE900 /* BaseNavigationController.swift in Sources */,
 				3EFF8F102434790D00185885 /* Date+PKExtensions.swift in Sources */,
 				3EFF8F1B2434790D00185885 /* UIApplication+PKExtensions.swift in Sources */,
+				3EDD02BD24358C7E0003B78F /* OverlayController.swift in Sources */,
 				3ED2A27A240814E200775EA4 /* OverlayBalloonView.swift in Sources */,
 				3ED2A26F2407BC1E00775EA4 /* OverlayPublishView.swift in Sources */,
 				3EFF8F162434790D00185885 /* Timer+PKExtensions.swift in Sources */,
