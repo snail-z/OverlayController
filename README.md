@@ -5,7 +5,7 @@
 ![enter image description here](https://img.shields.io/badge/platform-iOS%2010.0%2B-ff69b5152950834.svg) 
 <a href="https://github.com/snail-z/OverlayController-Swift/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat"></a>
 
-OverlayController is an implementation of a overlay effect for any view. It can be used to easily add dynamics to user interactions and popups views. If you need  Objective-C version, please see [here](https://github.com/snail-z/zhPopupController)
+OverlayController can easily pop up any custom view. It supports layout positions, optional pop-up animations and user interaction gestures and more. If you need the Objective-C version, please see [here](https://github.com/snail-z/zhPopupController)
 
 <img src="https://github.com/snail-z/OverlayController/blob/master/Preview/full1.gif?raw=true" width="168px">
 
