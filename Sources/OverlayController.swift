@@ -83,7 +83,7 @@ public extension UIView {
     /// Present your overlayController of view
     func present(overlay controller: OverlayController,
                  duration: TimeInterval = 0.25,
-                 options: UIView.AnimationOptions = [.curveLinear],
+                 options: UIView.AnimationOptions = [.curveEaseOut],
                  bounced: Bool = false,
                  completion: (() -> Void)? = nil) {
         add(overlay: controller, duration: duration, options: options, bounced: bounced, completion: completion)
@@ -189,9 +189,9 @@ public class OverlayController: NSObject {
     private var _timer: Timer?
     
     fileprivate func _present(duration: TimeInterval,
-                              delay: TimeInterval = 0,
-                              options: UIView.AnimationOptions = [.curveLinear],
-                              isBounced: Bool = false,
+                              delay: TimeInterval,
+                              options: UIView.AnimationOptions,
+                              isBounced: Bool,
                               completion: (() -> Void)? = nil) {
         guard !isPresenting else { return }
         
@@ -243,8 +243,8 @@ public class OverlayController: NSObject {
     }
     
     fileprivate func _dismiss(duration: TimeInterval,
-                              delay: TimeInterval = 0,
-                              options: UIView.AnimationOptions = [.curveEaseOut],
+                              delay: TimeInterval,
+                              options: UIView.AnimationOptions,
                               completion: (() -> Void)? = nil) {
         guard isPresenting else { return }
         self.isPresenting = false
@@ -274,8 +274,8 @@ public class OverlayController: NSObject {
         _maskView.removeFromSuperview()
     }
     
-    fileprivate func addSubview(below subview: UIView) {
-        _baseView.insertSubview(_maskView, belowSubview: subview)
+    fileprivate func addSubview(below siblingSubview: UIView) {
+        _baseView.insertSubview(_maskView, belowSubview: siblingSubview)
         _baseView.insertSubview(view, aboveSubview: _maskView)
     }
     
@@ -582,8 +582,8 @@ private extension UIView {
     
     private func add(overlay controller: OverlayController,
                      duration: TimeInterval,
-                     options: UIView.AnimationOptions = [.curveLinear],
-                     bounced: Bool = false,
+                     options: UIView.AnimationOptions,
+                     bounced: Bool,
                      completion: (() -> Void)? = nil) {
         
         controller._baseView = self
@@ -615,7 +615,7 @@ private extension UIView {
     
     private func remove(overlay controller: OverlayController,
                         duration: TimeInterval,
-                        options: UIView.AnimationOptions = [.curveEaseOut],
+                        options: UIView.AnimationOptions,
                         completion: (() -> Void)? = nil) {
         
         guard overlayControllersSet.count > 0 else {
@@ -630,7 +630,7 @@ private extension UIView {
     
     private func remove(overlay which: DissmissOptions,
                         duration: TimeInterval,
-                        options: UIView.AnimationOptions = [.curveEaseOut],
+                        options: UIView.AnimationOptions,
                         completion: (() -> Void)? = nil) {
         
         let controllersSet = overlayControllersSet.compactMap({ $0 as? OverlayController })
