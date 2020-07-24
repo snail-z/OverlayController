@@ -49,26 +49,28 @@ OverlayShareViewDelegate, OverlaySocialViewDelegate, OverlayBalloonViewDelegate,
     func popupClicked(index: Int) {
         switch index {
         case 1:
-            self.shareOVC.present(options: .curveEaseInOut)
+            UIApplication.pk.keyWindow?.present(overlay: self.shareOVC, options: .curveEaseOut)
         case 2:
-            self.socialOVC.present(in: UIApplication.pk.keyWindow)
+            UIApplication.pk.keyWindow?.present(overlay: self.socialOVC)
         case 3:
-            self.publishOVC.present()
+            view.window?.present(overlay: self.publishOVC)
         case 4:
-            self.balloonOVC.present()
+            view.window?.present(overlay: self.balloonOVC)
         case 5:
-            self.pickerOVC.present(in: view, duration: 0.75, options: .curveEaseIn, isBounced: true)
+            view.window?.present(overlay: self.pickerOVC, duration: 0.75, options: .curveEaseIn, bounced: true)
         case 6:
-            self.textOVC.present()
+            view.window?.present(overlay: self.textOVC)
         case 7:
-            self.sidebarOVC.present(in: UIApplication.pk.keyWindow, duration: 0.2, options: .curveEaseInOut)
+            view.window?.present(overlay: self.sidebarOVC, duration: 0.2, options: .curveEaseInOut)
         case 8:
+            print("2")
             // test - windowLevel
-            self.testOVC1.present(in: view.window, delay: 0.2)
-            self.testOVC2.present(in: view.window, delay: 0.4)
-            self.testOVC3.present(in: view.window, delay: 0.5)
-            self.testOVC4.present(in: view.window, delay: 0.8)
-            self.testOVC5.present(in: view.window, delay: 1.0)
+            view.window?.present(overlay: self.testOVC1)
+//            self.testOVC1.present(in: view.window, delay: 0.2)
+//            self.testOVC2.present(in: view.window, delay: 0.4)
+//            self.testOVC3.present(in: view.window, delay: 0.5)
+//            self.testOVC4.present(in: view.window, delay: 0.8)
+//            self.testOVC5.present(in: view.window, delay: 1.0)
         default: break
         }
     }
@@ -94,7 +96,7 @@ OverlayShareViewDelegate, OverlaySocialViewDelegate, OverlayBalloonViewDelegate,
     }()
     
     func overlayShareViewDidClickedCancel(_ shareView: OverlayShareView) {
-        self.shareOVC.dissmiss()
+        UIApplication.pk.keyWindow?.dissmiss(overlay: .first)
     }
     
     func overlayShareView(_ shareView: OverlayShareView, didSelectItemAt indexPath: IndexPath) {
@@ -152,7 +154,7 @@ OverlayShareViewDelegate, OverlaySocialViewDelegate, OverlayBalloonViewDelegate,
     }
 
     func overlaySocialViewDidClickedClose(_ socialView: OverlaySocialView) {
-        self.socialOVC.dissmiss()
+        UIApplication.pk.keyWindow?.dissmiss(overlay: .last)
     }
 
     func overlaySocialView(_ socialView: OverlaySocialView, didSelectItemAt indexPath: IndexPath) {
@@ -164,8 +166,8 @@ OverlayShareViewDelegate, OverlaySocialViewDelegate, OverlayBalloonViewDelegate,
 
     lazy var publishView: OverlayPublishView = {
         let view = OverlayPublishView(frame: CGRect(origin: .zero, size: UIScreen.pk.size))
-        view.pk.addTapGesture { [unowned self] (sender) in
-            self.publishOVC.dissmiss(duration: 0.5)
+        view.pk.addTapGesture { [unowned self] _ in
+            view.window?.dissmiss(overlay: .last, duration: 0.5)
         }
         return view
     }()
@@ -186,15 +188,15 @@ OverlayShareViewDelegate, OverlaySocialViewDelegate, OverlayBalloonViewDelegate,
     // MARK: - OverlayBalloonView
     
     lazy var balloonView: OverlayBalloonView = {
-        let view = OverlayBalloonView(frame: CGRect(origin: .zero, size: UIScreen.pk.size))
-        view.delegate = self
-        view.update(layout: OverlayBalloonView.Layout(), data: DataSource.balloonItems)
-        view.pk.addTapGesture { [unowned self] (_) in
-            self.balloonView.dismissAnimate { (_) in
-                self.balloonOVC.dissmiss(duration: 0.5)
+        let aView = OverlayBalloonView(frame: CGRect(origin: .zero, size: UIScreen.pk.size))
+        aView.delegate = self
+        aView.update(layout: OverlayBalloonView.Layout(), data: DataSource.balloonItems)
+        aView.pk.addTapGesture { [unowned self] _ in
+            self.balloonView.dismissAnimate { _ in
+                self.view.window?.dissmiss(overlay: .last, duration: 0.5)
             }
         }
-        return view
+        return aView
     }()
 
     lazy var balloonOVC: OverlayController = {
@@ -202,15 +204,15 @@ OverlayShareViewDelegate, OverlaySocialViewDelegate, OverlayBalloonViewDelegate,
         ovc.maskStyle = .extraLightBlur
         ovc.layoutPosition = .center
         ovc.presentationStyle = .fade
-        ovc.willPresentClosure = { [unowned self] (sender) in
+        ovc.willPresentClosure = { [unowned self] _ in
             self.balloonView.presentAnimate()
         }
         return ovc
     }()
     
     func overlayBalloonView(_ balloonView: OverlayBalloonView, didSelectItemAt index: Int) {
-        self.balloonView.dismissAnimate { (isEnded) in
-            self.balloonOVC.dissmiss(duration: 0.5)
+        self.balloonView.dismissAnimate { [unowned self] (isEnded) in
+            self.view.window?.dissmiss(overlay: .last, duration: 0.5)
             let data = balloonView.dataList![index]
             self.pushTip(title: data.title)
         }
@@ -232,12 +234,12 @@ OverlayShareViewDelegate, OverlaySocialViewDelegate, OverlayBalloonViewDelegate,
         ovc.maskStyle = .darkBlur
         ovc.layoutPosition = .bottom
         ovc.presentationStyle = .fromToBottom
-        ovc.offsetSpacing = -40
+        ovc.layoutPositionOffset = -40
         return ovc
     }()
     
     func overlayPickerViewDidClickedSubmit(_ pickerView: OverlayPickerView) {
-        self.pickerOVC.dissmiss()
+        view.window?.dissmiss(overlay: .last)
         let title = pickerView.currentDate?.pk.toString(format: "yyyy-MM-dd HH:mm")
         pushTip(title: title)
     }
@@ -255,11 +257,12 @@ OverlayShareViewDelegate, OverlaySocialViewDelegate, OverlayBalloonViewDelegate,
         ovc.maskStyle = .darkBlur
         ovc.layoutPosition = .bottom
         ovc.presentationStyle = .fromToBottom
-        ovc.keyboardChanged = (true, true)
-        ovc.willPresentClosure = { [unowned self](sender) in
+        ovc.shouldKeyboardChangeFollow = true
+        ovc.shouldKeyboardFirstRespond = true
+        ovc.willPresentClosure = { [unowned self] _ in
             self.textView.becomeFirstResponder()
         }
-        ovc.willDismissClosure = { [unowned self](sender) in
+        ovc.willDismissClosure = { [unowned self] _ in
             self.textView.resignFirstResponder()
         }
         return ovc
@@ -363,7 +366,7 @@ OverlayShareViewDelegate, OverlaySocialViewDelegate, OverlayBalloonViewDelegate,
         ovc.maskStyle = .black(opacity: 0.25)
         ovc.presentationStyle = .transform(scale: 0.5)
         ovc.layoutPosition = .top
-        ovc.offsetSpacing = 90
+        ovc.layoutPositionOffset = 90
         return ovc
     }()
 
@@ -376,10 +379,10 @@ OverlayShareViewDelegate, OverlaySocialViewDelegate, OverlayBalloonViewDelegate,
             tipLabel.textColor = .white
         }
         tipLabel.text = title
-        self.tipOVC.present(duration: 0.55, isBounced: true)
+        view.window?.present(overlay: self.tipOVC, duration: 0.55, bounced: true)
     }
     
     deinit {
-        print("ExampleViewController - deinit")
+        print("deinit is: \(self.pk.className)")
     }
 }
