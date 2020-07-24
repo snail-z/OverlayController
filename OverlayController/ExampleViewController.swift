@@ -63,14 +63,12 @@ OverlayShareViewDelegate, OverlaySocialViewDelegate, OverlayBalloonViewDelegate,
         case 7:
             view.window?.present(overlay: self.sidebarOVC, duration: 0.2, options: .curveEaseInOut)
         case 8:
-            print("2")
             // test - windowLevel
             view.window?.present(overlay: self.testOVC1)
-//            self.testOVC1.present(in: view.window, delay: 0.2)
-//            self.testOVC2.present(in: view.window, delay: 0.4)
-//            self.testOVC3.present(in: view.window, delay: 0.5)
-//            self.testOVC4.present(in: view.window, delay: 0.8)
-//            self.testOVC5.present(in: view.window, delay: 1.0)
+            view.window?.present(overlay: self.testOVC2)
+            view.window?.present(overlay: self.testOVC3)
+            view.window?.present(overlay: self.testOVC4)
+            view.window?.present(overlay: self.testOVC5)
         default: break
         }
     }
