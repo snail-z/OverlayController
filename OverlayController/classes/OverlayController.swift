@@ -569,12 +569,12 @@ private var UIViewAssociatedOverlayControllersKey: Void?
 
 private extension UIView {
     
-    private var overlayControllersSet: NSMutableSet {
-        let overlaysSet: NSMutableSet
-        if let existing = objc_getAssociatedObject(self, &UIViewAssociatedOverlayControllersKey) as? NSMutableSet {
+    private var overlayControllersSet: NSMutableArray {
+        let overlaysSet: NSMutableArray
+        if let existing = objc_getAssociatedObject(self, &UIViewAssociatedOverlayControllersKey) as? NSMutableArray {
             overlaysSet = existing
         } else {
-            overlaysSet = NSMutableSet()
+            overlaysSet = NSMutableArray()
             objc_setAssociatedObject(self, &UIViewAssociatedOverlayControllersKey, overlaysSet, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
         return overlaysSet
