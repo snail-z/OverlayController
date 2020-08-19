@@ -592,8 +592,7 @@ private extension UIView {
             let sortedControllers = overlayControllersSet.compactMap({ $0 as? OverlayController })
                 .sorted(by: { $0.windowLevel.rawValue < $1.windowLevel.rawValue })
             
-            if let
-                top = sortedControllers.last,
+            if let top = sortedControllers.last,
                 controller.windowLevel.rawValue >= top.windowLevel.rawValue {
                 controller.addSubview()
             } else {
@@ -632,6 +631,10 @@ private extension UIView {
                         duration: TimeInterval,
                         options: UIView.AnimationOptions,
                         completion: (() -> Void)? = nil) {
+        
+        guard overlayControllersSet.count > 0 else {
+            return
+        }
         
         let controllersSet = overlayControllersSet.compactMap({ $0 as? OverlayController })
         
